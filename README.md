@@ -41,9 +41,11 @@ sequenceDiagram
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Secure login over HTTPS
+- Ability to add a todo item
+- Ability to check off a todo item
+- Changes to list are shown in real time to all team members
+- List is persistently stored between login sessions
 
 ### Technologies
 

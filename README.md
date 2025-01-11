@@ -2,7 +2,7 @@
 
 [My Notes](notes.md)
 
-A brief description of the application here.
+This is a collaborative to-do list. Users will be able to add items to the list, and check-off items when they are completed. The list will be updated in real time for all members of the team.
 
 
 > [!NOTE]

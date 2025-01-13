@@ -51,12 +51,16 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Uses correct HTML structure with two pages, one for showing the list and one for editing/adding items.
+- **CSS** - Application styling that works on different screen sizes and looks nice.
+- **React** - Used for login and for editing, adding and removing items.
+- **Service** - Backend service with endpoints for  
+    - login
+    - retrieving the list
+    - updating the list
+    - third-party endpoint to generate lorem ipsum filler for item templates.
+- **DB/Login** - Store users, teams and todo lists. Securely store login credentials.
+- **WebSocket** - When a team member updates the list the updates are shown to all team members.
 
 ## 🚀 AWS deliverable
 

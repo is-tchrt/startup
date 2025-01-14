@@ -52,7 +52,7 @@ sequenceDiagram
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Uses correct HTML structure with two pages, one for showing the list and one for editing/adding items.
+- **HTML** - Uses correct HTML structure with four pages, one for login, one for group selection, one for showing the list and one for editing/adding items.
 - **CSS** - Application styling that works on different screen sizes and looks nice.
 - **React** - Used for login and for editing, adding and removing items.
 - **Service** - Backend service with endpoints for  

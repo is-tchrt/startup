@@ -30,15 +30,16 @@ Have you ever had a hard time keeping track of who was doing what in a group pro
 
 ### Design
 
-![Design image](placeholder.png)
+![Design image](startup_design.jpg)
 
 
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
+![Sequence Diagram](sequence_diagram.jpg)
+// ```mermaid
+// sequenceDiagram
+//     actor You
+//     actor Website
+//     You->>Website: Replace this with your design
+// ```
 
 ### Key features
 

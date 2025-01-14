@@ -30,11 +30,12 @@ Have you ever had a hard time keeping track of who was doing what in a group pro
 
 ### Design
 
-![Design image](startup_design.jpg)
-<img src="startup_design.jpg" width="30%" alt="Design image">
+#### Page Design
+<img src="startup_design.jpg" width="50%" alt="Page Design">
 
 
-![Sequence Diagram](sequence_diagram.jpg)
+#### Client-Server Interaction Diagram
+<img src="sequence_diagram.jpg" width="50%" alt="Client-Server Interaction Diagram">
 
 ### Key features
 

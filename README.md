@@ -31,15 +31,10 @@ Have you ever had a hard time keeping track of who was doing what in a group pro
 ### Design
 
 ![Design image](startup_design.jpg)
+<img src="startup_design.jpg" width="30%" alt="Design image">
 
 
 ![Sequence Diagram](sequence_diagram.jpg)
-// ```mermaid
-// sequenceDiagram
-//     actor You
-//     actor Website
-//     You->>Website: Replace this with your design
-// ```
 
 ### Key features
 

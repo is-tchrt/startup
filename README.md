@@ -26,7 +26,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ### Elevator pitch
 
-Have you ever had a hard time keeping track of who was doing what in a group project? Or has your team at work had a hard time keeping track of tasks? What you need is a way to easily share a todo list between group members. OneList allows your group to have a shared todo list so that everyone knows what still needs to be done, and everyone can celebrate when someone completes a task. OneList provides real-time collaborative editing on a single group todo list, allowing you and your group members to spend less time coordinating your work and more time actually working.
+Have you ever had a hard time keeping track of who was doing what in a group project? Or has your team at work had a hard time keeping track of tasks? What you need is a way to easily share a to-do list between group members. OneList allows your group to have a shared to-do list so that everyone knows what still needs to be done, and everyone can celebrate when someone completes a task. OneList provides real-time collaborative editing on a single group to-do list, allowing you and your group members to spend less time coordinating your work and more time actually working.
 
 ### Design
 
@@ -43,8 +43,8 @@ sequenceDiagram
 ### Key features
 
 - Secure login over HTTPS
-- Ability to add a todo item
-- Ability to check off a todo item
+- Ability to add a to-do item
+- Ability to check off a to-do item
 - Changes to list are shown in real time to all team members
 - List is persistently stored between login sessions
 
@@ -60,7 +60,7 @@ I am going to use the required technologies in the following ways.
     - retrieving the list
     - updating the list
     - third-party endpoint to generate lorem ipsum filler for item templates.
-- **DB/Login** - Store users, teams and todo lists. Securely store login credentials.
+- **DB/Login** - Store users, teams and to-do lists. Securely store login credentials.
 - **WebSocket** - When a team member updates the list the updates are shown to all team members.
 
 ## 🚀 AWS deliverable

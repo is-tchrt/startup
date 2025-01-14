@@ -26,6 +26,7 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 ### Elevator pitch
 
+Have you ever had a hard time keeping track of who was doing what in a group project? Or has your team at work had a hard time keeping track of tasks? What you need is a way to easily share a todo list between group members. OneList allows your group to have a shared todo list so that everyone knows what still needs to be done, and everyone can celebrate when someone completes a task. OneList provides real-time collaborative editing on a single group todo list, allowing you and your group members to spend less time coordinating your work and more time actually working.
 
 ### Design
 

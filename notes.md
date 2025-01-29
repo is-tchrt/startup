@@ -13,3 +13,10 @@
 
 ## HTML Notes
 
+<head> tags are important for helping with search engine optimization. It includes the title of the page that search engines look at.
+
+Apparently the browser caches random things. You can use ctrl-shift-r to hard reload the page and bypass the cache, which is useful for development.
+
+<header> tags are used for the visible header section of a document, like the title that people will read, navigation sections, etc. You can also have a <nav> section within the header for the navigation part.
+
+The <hr> tag adds a line across the page. The <br> tag adds a line break.

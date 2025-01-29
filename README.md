@@ -74,15 +74,15 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - Four pages. `index.html` for the login page, `group.html` for group selection, `list.html` to show the shared to-do list and `item.html` for adding and editing items.
+- [x] **Proper HTML element usage** - I used several different elements. Each page has a head and a body. The head contains a nav element with an unordered list of navigation links, and the body has a header element, a main element, and a footer element. I also used div, span, input, form, etc.
+- [x] **Links** - Each page has links to every other page.
+- [x] **Text** - Each page has headers that explain what to do on that page. Forms also have placeholder text to clarify the purpose of inputs.
+- [x] **3rd party API placeholder** - The item edit screen will have lorem ipsum text generated in the textbox for the item description as placeholder text.
+- [x] **Images** - The login and group selection pages each have an image (the checklist logo).
+- [x] **Login placeholder** - Placeholder for authentication on the Login page.
+- [x] **DB data placeholder** - Group to-do lists will be stored in a database. The list page will pull data from the database.
+- [x] **WebSocket placeholder** - The list page will be updated for all users whenever someone edits the list.
 
 ## 🚀 CSS deliverable
 

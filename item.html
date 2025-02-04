@@ -2,25 +2,31 @@
 <html lang="en">
   <head>
     <title>OneList | Edit Items</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="item.css" />
   </head>
   <body>
     <header>
-      <h1>OneList: Edit Items</h1>
-      <nav>
-        <ul>
-          <li><a href="index.html">Login</a></li>
-          <li><a href="group.html">Group Selection</a></li>
-          <li><a href="list.html">List</a></li>
-          <li><a href="item.html">Edit Items</a></li>
+      <nav class="navbar navbar-light navbar-expand-lg">
+        <a href="#"><img src="checklist.png" height="50" align="left"/></a>
+        <ul class="navbar-nav">
+          <li class="nav-item"><a href="index.html" class="nav-link">Login</a></li>
+          <li class="nav-item"><a href="group.html" class="nav-link">Group Selection</a></li>
+          <li class="nav-item"><a href="list.html" class="nav-link">List</a></li>
+          <li class="nav-item"><a href="item.html" class="nav-link">Edit Items</a></li>
         </ul>
       </nav>
     </header>
     <main>
-      <hr>
       <h2>Add a task:</h2>
       <form>
-      <p><input type="text" placeholder="Title" /></p>
-      <textarea placeholder="Lorem ipsum" cols="40" rows="6"></textarea>
+        <p class="form-group"><input type="text" class="form-control" placeholder="Title" /></p>
+        <div class="form-group">
+          <textarea class="form-control" placeholder="Lorem ipsum" cols="40" rows="6"></textarea>
+        </div>
       </form>
     </main>
     <footer>

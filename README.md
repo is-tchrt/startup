@@ -84,12 +84,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
-- [ ] **Responsive to window resizing** - I did not complete this part of the deliverable.
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - The header, footer and main sections are all styled nicely with good background colors and nice layout of child elements.
+- [x] **Navigation elements** - The navigation bar is nicely laid out with links to each page.
+- [x] **Responsive to window resizing** - Everything in the application scales nicely at different window sizes. This was because of Bootstrap, display:flex and @media sections.
+- [x] **Application elements** - All necessary parts of the application were added. I had to use a few different `display` options to get different elements to line up correctly, including flex, inline and block.
+- [x] **Application text content** - I used the default text styling from Bootstrap, which I think looks nice.
+- [x] **Application images** - I moved the logo image to the navigation bar.
 
 ## 🚀 React part 1: Routing deliverable
 

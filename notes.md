@@ -20,3 +20,11 @@ Apparently the browser caches random things. You can use ctrl-shift-r to hard re
 <header> tags are used for the visible header section of a document, like the title that people will read, navigation sections, etc. You can also have a <nav> section within the header for the navigation part.
 
 The <hr> tag adds a line across the page. The <br> tag adds a line break.
+
+## CSS Notes
+
+Make sure not to put a colon after style element property names in the @media section.
+
+Make sure you specify px after border, margin and padding sizes.
+
+Make sure to put the links to stylesheets in the right order in the HTML.

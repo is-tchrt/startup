@@ -68,13 +68,25 @@ footer span {
 }
 
 @media (max-height: 600px) {
-  header: {
+  header {
     display: none;
   }
-  footer: {
+  footer {
     display: none;
   }
-  main: {
+  main {
+    flex: 1, 100vh;
+  }
+}
+
+@media (max-width: 345px) {
+  header {
+    display: none;
+  }
+  footer {
+    display: none;
+  }
+  main {
     flex: 1, 100vh;
   }
 }

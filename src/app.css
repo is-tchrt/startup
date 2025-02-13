@@ -20,7 +20,7 @@ header {
 }
 
 main {
-  flex: 1 calc(100vh - 130px);
+  flex: 1 calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   margin: 0;

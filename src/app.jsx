@@ -1,24 +1,45 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { Login } from './login/login';
+import { Group } from './group/group';
+import { List } from './list/list';
+import { Item } from './item/item';
 
 export default function App() {
-  return <div className="body bg-dark text-light">
-    <header>
-      <nav className="navbar navbar-light navbar-expand-lg">
-        <a href="#"><img src="checklist.png" height="50" align="left"/></a>
-        <ul className="navbar-nav">
-          <li className="nav-item"><a href="index.html" className="nav-link">Login</a></li>
-          <li className="nav-item"><a href="group.html" className="nav-link">Group Selection</a></li>
-          <li className="nav-item"><a href="list.html" className="nav-link">List</a></li>
-          <li className="nav-item"><a href="item.html" className="nav-link">Edit Items</a></li>
-        </ul>
-      </nav>
-    </header>
-    <main>App components go here</main>
-    <footer>
-      <span>Isaac Teichert</span>
-      <a href="https://github.com/is-tchrt/startup">Github</a>
-    </footer>
-    </div>;
+  return (
+    <BrowserRouter>
+      <div className="body bg-dark text-light">
+        <header>
+          <nav className="navbar navbar-light navbar-expand-lg">
+            <NavLink to=""><img src="checklist.png" height="50" align="left"/></NavLink>
+            <ul className="navbar-nav">
+              <li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>
+              <li className="nav-item"><NavLink to="group" className="nav-link">Group Selection</NavLink></li>
+              <li className="nav-item"><NavLink to="list" className="nav-link">List</NavLink></li>
+              <li className="nav-item"><NavLink to="item" className="nav-link">Edit Items</NavLink></li>
+            </ul>
+          </nav>
+        </header>
+
+        <Routes>
+          <Route path='/' element={<Login />} exact />
+          <Route path='/group' element={<Group />} />
+          <Route path='/list' element={<List />} />
+          <Route path='/item' element={<Item />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+
+        <footer>
+          <span>Isaac Teichert</span>
+          <a href="https://github.com/is-tchrt/startup">Github</a>
+        </footer>
+      </div>
+    </BrowserRouter>
+    );
+}
+
+function NotFound() {
+  return <main className="container-fluid bg-secondary text-center">404: Not Found</main>;
 }

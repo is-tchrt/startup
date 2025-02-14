@@ -10,7 +10,7 @@ import { Item } from './item/item';
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="body bg-dark text-light">
+      <div className="body">
         <header>
           <nav className="navbar navbar-light navbar-expand-lg">
             <NavLink to=""><img src="checklist.png" height="50" align="left"/></NavLink>
@@ -32,6 +32,7 @@ export default function App() {
         </Routes>
 
         <footer>
+          <hr></hr>
           <span>Isaac Teichert</span>
           <a href="https://github.com/is-tchrt/startup">Github</a>
         </footer>

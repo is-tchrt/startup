@@ -28,3 +28,7 @@ Make sure not to put a colon after style element property names in the @media se
 Make sure you specify px after border, margin and padding sizes.
 
 Make sure to put the links to stylesheets in the right order in the HTML.
+
+## React Notes
+
+CSS with React is wonky, be really careful. Bootstrap doesn't turn out quite the same.

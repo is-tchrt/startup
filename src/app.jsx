@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { Login } from './login/login';
 import { Group } from './group/group';
 import { List } from './list/list';
@@ -9,7 +9,8 @@ import { Item } from './item/item';
 
 export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const currentLoginState = userName ? true : false;
+  const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
   const [group, setGroup] = React.useState('');
   
   return (
@@ -19,16 +20,16 @@ export default function App() {
           <nav className="navbar navbar-light navbar-expand-lg">
             <NavLink to=""><img src="checklist.png" height="50" align="left"/></NavLink>
             <ul className="navbar-nav">
-              {!loggedIn && (<li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>)}
               {loggedIn && (<li className="nav-item"><NavLink to="group" className="nav-link">Group Selection</NavLink></li>)}
               {loggedIn && group && (<li className="nav-item"><NavLink to="list" className="nav-link">List</NavLink></li>)}
               {loggedIn && group && (<li className="nav-item"><NavLink to="item" className="nav-link">Edit Items</NavLink></li>)}
+              {!loggedIn ? (<li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>) : (<li className='nav-item'><NavLink to="" className="nav-link">Logout</NavLink></li>)}
             </ul>
           </nav>
         </header>
 
         <Routes>
-          <Route path='/' element={<Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
+          <Route path='/' element={loggedIn ? <Logout /> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
           <Route path='/group' element={loggedIn ? <Group /> : <NotAllowed />} />
           <Route path='/list' element={loggedIn ? <List /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item /> : <NotAllowed />} />
@@ -43,6 +44,12 @@ export default function App() {
       </div>
     </BrowserRouter>
     );
+}
+
+function Logout() {
+  localStorage.clear()
+  const navigate = useNavigate();
+  navigate('/');
 }
 
 function NotFound() {

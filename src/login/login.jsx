@@ -5,6 +5,8 @@ export function Login(props) {
   const navigate = useNavigate();
   const [userName, setUserName] = React.useState(props.userName);
   const [password, setPassword] = React.useState('');
+  const currentLoginState = userName ? true : false;
+  const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
 
   async function login() {
     localStorage.setItem('userName', userName);

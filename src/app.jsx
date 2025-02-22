@@ -8,6 +8,9 @@ import { List } from './list/list';
 import { Item } from './item/item';
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [group, setGroup] = React.useState('');
+  
   return (
     <BrowserRouter>
       <div className="body">
@@ -16,9 +19,9 @@ export default function App() {
             <NavLink to=""><img src="checklist.png" height="50" align="left"/></NavLink>
             <ul className="navbar-nav">
               <li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>
-              <li className="nav-item"><NavLink to="group" className="nav-link">Group Selection</NavLink></li>
-              <li className="nav-item"><NavLink to="list" className="nav-link">List</NavLink></li>
-              <li className="nav-item"><NavLink to="item" className="nav-link">Edit Items</NavLink></li>
+              {loggedIn && (<li className="nav-item"><NavLink to="group" className="nav-link">Group Selection</NavLink></li>)}
+              {loggedIn && group && (<li className="nav-item"><NavLink to="list" className="nav-link">List</NavLink></li>)}
+              {loggedIn && group && (<li className="nav-item"><NavLink to="item" className="nav-link">Edit Items</NavLink></li>)}
             </ul>
           </nav>
         </header>

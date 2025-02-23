@@ -17,7 +17,6 @@ export default function App() {
     <BrowserRouter>
       <div className="body">
         <header>
-          <p>{loggedIn.toString()}, {userName}, {group}</p>
           <nav className="navbar navbar-light navbar-expand-lg">
             <NavLink to=""><img src="checklist.png" height="50" align="left"/></NavLink>
             <ul className="navbar-nav">
@@ -30,7 +29,7 @@ export default function App() {
         </header>
 
         <Routes>
-          <Route path='/' element={loggedIn ? <Logout /> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
+          <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
           <Route path='/list' element={loggedIn ? <List /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item /> : <NotAllowed />} />
@@ -47,10 +46,9 @@ export default function App() {
     );
 }
 
-function Logout() {
-  localStorage.clear()
-  const navigate = useNavigate();
-  navigate('/');
+function Logout(props) {
+  localStorage.clear();
+  props.logout();
 }
 
 function NotFound() {

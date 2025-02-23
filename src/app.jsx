@@ -11,12 +11,13 @@ export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
-  const [group, setGroup] = React.useState('');
+  const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
   
   return (
     <BrowserRouter>
       <div className="body">
         <header>
+          <p>{loggedIn.toString()}, {userName}, {group}</p>
           <nav className="navbar navbar-light navbar-expand-lg">
             <NavLink to=""><img src="checklist.png" height="50" align="left"/></NavLink>
             <ul className="navbar-nav">
@@ -30,7 +31,7 @@ export default function App() {
 
         <Routes>
           <Route path='/' element={loggedIn ? <Logout /> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
-          <Route path='/group' element={loggedIn ? <Group /> : <NotAllowed />} />
+          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
           <Route path='/list' element={loggedIn ? <List /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item /> : <NotAllowed />} />
           <Route path='*' element={<NotFound />} />

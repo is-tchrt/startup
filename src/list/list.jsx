@@ -5,6 +5,7 @@ export function List() {
   const [list, setList] = localStorage.getItem('list') ?
     React.useState(JSON.parse(localStorage.getItem('list'))) :
     React.useState([]);
+  const [checkedValues, setCheckedValues] = React.useState(list.map(() => false));
 
   // function formatList(todoList) {
   //   let listItems = [];
@@ -30,17 +31,23 @@ export function List() {
   }
 
   listUpdates();
+
+  function updateCheckedValues(changeIndex) {
+    return checkedValues.map((item, index) => index === changeIndex ? !item : item)
+    }
   
   return (
     <main className="list">
       <div>
         <h2>To-do:</h2>
         <form name="todo">
-          {list.map((item) => (
+          {list.map((item, index) => (
             <div className="todo">
-              <input type="checkbox" />
+              <input type="checkbox" onChange={() => {setCheckedValues(updateCheckedValues(index))}}/>
               <label>{item.title}</label>
               <span>-- Added by {item.author}</span><br/>
+              {checkedValues[index] && (<button type="submit" className='btn btn-primary'>Mark as Completed?</button>)}
+              <button type="submit" className="btn btn-secondary">Edit</button>
             </div>
           ))}
         </form>

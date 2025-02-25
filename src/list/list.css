@@ -12,9 +12,21 @@
 }
 
 .todo {
+  display: flex;
   padding: 15px 0 5px 5px;
   height: 60px;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   background-color: White;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.itemData span {
+  padding: 0 5px 0 5px;
+}
+
+.todo button {
+  float: end;
+  margin: 0px 5px 0px 5px;
 }

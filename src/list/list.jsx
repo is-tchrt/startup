@@ -50,11 +50,13 @@ export function List() {
         <form name="todo">
           {list.map((item, index) => (
             <div className="todo">
-              <input type="checkbox" checked={checkedValues[index]} onChange={() => {setCheckedValues(updateCheckedValues(index))}}/>
-              <label>{item.title}</label>
-              <span>-- Added by {item.author}</span><br/>
-              {checkedValues[index] && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(index)}>Mark as Completed?</button>)}
+              <div className="itemData">
+                <input type="checkbox" checked={checkedValues[index]} onChange={() => {setCheckedValues(updateCheckedValues(index))}}/>
+                <span>{item.title}</span>
+                <span>-- Added by {item.author}</span><br/>
+              </div>
               <button type="submit" className="btn btn-secondary" onClick={() => navigate("/item", {item: item, setList: setList})}>Edit</button>
+              {checkedValues[index] && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(index)}>Mark as Completed?</button>)}
             </div>
           ))}
         </form>

@@ -35,6 +35,11 @@ export function List() {
   function updateCheckedValues(changeIndex) {
     return checkedValues.map((item, index) => index === changeIndex ? !item : item)
     }
+
+  function removeCompletedItem(index) {
+    setList(list.slice(0, index).concat(list.slice(index + 1)));
+    setCheckedValues(checkedValues.slice(0, index).concat(checkedValues.slice(index + 1)));
+  }
   
   return (
     <main className="list">
@@ -43,10 +48,10 @@ export function List() {
         <form name="todo">
           {list.map((item, index) => (
             <div className="todo">
-              <input type="checkbox" onChange={() => {setCheckedValues(updateCheckedValues(index))}}/>
+              <input type="checkbox" checked={checkedValues[index]} onChange={() => {setCheckedValues(updateCheckedValues(index))}}/>
               <label>{item.title}</label>
               <span>-- Added by {item.author}</span><br/>
-              {checkedValues[index] && (<button type="submit" className='btn btn-primary'>Mark as Completed?</button>)}
+              {checkedValues[index] && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(index)}>Mark as Completed?</button>)}
               <button type="submit" className="btn btn-secondary">Edit</button>
             </div>
           ))}

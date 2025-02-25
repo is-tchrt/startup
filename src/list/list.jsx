@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './list.css';
 
 export function List() {
@@ -6,6 +7,7 @@ export function List() {
     React.useState(JSON.parse(localStorage.getItem('list'))) :
     React.useState([]);
   const [checkedValues, setCheckedValues] = React.useState(list.map(() => false));
+  const navigate = useNavigate();
 
   // function formatList(todoList) {
   //   let listItems = [];
@@ -52,7 +54,7 @@ export function List() {
               <label>{item.title}</label>
               <span>-- Added by {item.author}</span><br/>
               {checkedValues[index] && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(index)}>Mark as Completed?</button>)}
-              <button type="submit" className="btn btn-secondary">Edit</button>
+              <button type="submit" className="btn btn-secondary" onClick={() => navigate("/item", {item: item, setList: setList})}>Edit</button>
             </div>
           ))}
         </form>

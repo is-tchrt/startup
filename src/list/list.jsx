@@ -1,23 +1,35 @@
 import React from 'react';
-import { ListGroupItem } from 'react-bootstrap';
 import './list.css';
 
 export function List() {
-  const [list, setList] = React.useState(localStorage.getItem('list') || []);
+  const [list, setList] = localStorage.getItem('list') ?
+    React.useState(JSON.parse(localStorage.getItem('list'))) :
+    React.useState([]);
 
-  function formatList(todoList) {
-    let listItems = [];
-    for (item of todoList) {
-      listItems.push(
-        <div className="todo">
-          <input type="checkbox" />
-          <label>{item.title}</label>
-          <span>-- Added by {item.author}</span><br/>
-        </div>
-      );
-    }
-    return listItems;
+  // function formatList(todoList) {
+  //   let listItems = [];
+  //   for (item of todoList) {
+  //     listItems.push(
+  //       <div className="todo">
+  //         <input type="checkbox" />
+  //         <label>{item.title}</label>
+  //         <span>-- Added by {item.author}</span><br/>
+  //       </div>
+  //     );
+  //   }
+  //   return listItems;
+  // }
+
+  function listUpdates() {
+    setInterval(() => {
+      let title = Math.floor(Math.random() * 2000);
+      let author = "anon."
+      setList(list.concat([{title: title, author: author}]));
+      localStorage.setItem('list', JSON.stringify(list));
+      }, 60000)
   }
+
+  listUpdates();
   
   return (
     <main className="list">

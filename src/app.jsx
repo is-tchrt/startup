@@ -12,6 +12,7 @@ export default function App() {
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
+  const [currentItem, setCurrentItem] = React.useState(JSON.parse(localStorage.getItem('currentItem')) || {title: "", description: "", author: ""});
   
   return (
     <BrowserRouter>
@@ -31,8 +32,8 @@ export default function App() {
         <Routes>
           <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List /> : <NotAllowed />} />
-          <Route path='/item' element={loggedIn ? <Item /> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List setCurrentItem={setCurrentItem} /> : <NotAllowed />} />
+          <Route path='/item' element={loggedIn ? <Item item={currentItem} /> : <NotAllowed />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
 

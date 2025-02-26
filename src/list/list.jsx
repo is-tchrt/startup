@@ -62,10 +62,12 @@ export function List(props) {
                 <span>{item.title}</span>
                 <span>-- Added by {item.author}</span><br/>
               </div>
-              <button type="submit" className="btn btn-secondary" onClick={() => editItem(item)}>Edit</button>
-              {// <button type="submit" className="btn btn-secondary" onClick={() => navigate("/item", {state: {item: item, setList: setList}})}>Edit</button>
-              }
-              {checkedValues[index] && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(index)}>Mark as Completed?</button>)}
+              <div>
+                {checkedValues[index] && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(index)}>Mark as Completed?</button>)}
+                <button type="submit" className="btn btn-secondary" onClick={() => editItem(item)}>Edit</button>
+                {// <button type="submit" className="btn btn-secondary" onClick={() => navigate("/item", {state: {item: item, setList: setList}})}>Edit</button>
+                }
+              </div>
             </div>
           ))}
         </form>

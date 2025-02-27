@@ -1,22 +1,17 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
-import { BrowserRouter, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Group } from './group/group';
 import { List } from './list/list';
 import { Item } from './item/item';
 
 export default function App() {
-  console.log("refreshed app");
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
-  const [list, setList] = React.useState(JSON.parse(localStorage.getItem('list')) || [])
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
-  const [currentItem, setCurrentItem] = React.useState(JSON.parse(localStorage.getItem('currentItem')) || {item: {title: "", description: "", author: ""}});
-
-  // const list = JSON.parse(localStorage.getItem('list')) || [];
   
   return (
     <BrowserRouter>
@@ -27,8 +22,6 @@ export default function App() {
             <ul className="navbar-nav">
               {loggedIn && (<li className="nav-item"><NavLink to="group" className="nav-link">Group Selection</NavLink></li>)}
               {loggedIn && group && (<li className="nav-item"><NavLink to="list" className="nav-link">List</NavLink></li>)}
-              {//loggedIn && group && (<li className="nav-item"><NavLink to="item" className="nav-link">Edit Items</NavLink></li>)}
-              }
               {!loggedIn ? (<li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>) : (<li className='nav-item'><NavLink to="" className="nav-link">Logout</NavLink></li>)}
             </ul>
           </nav>
@@ -37,8 +30,8 @@ export default function App() {
         <Routes>
           <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List userName={userName} list={list} setList={(list) => setList(list)} setCurrentItem={(item) => setCurrentItem(item)} /> : <NotAllowed />} />
-          <Route path='/item' element={loggedIn ? <Item itemData={currentItem} list={list} userName={userName} setList={setList} setCurrentItem={setCurrentItem}/> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List userName={userName} /> : <NotAllowed />} />
+          <Route path='/item' element={loggedIn ? <Item /> : <NotAllowed />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
 

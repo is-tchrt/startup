@@ -3,24 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { listItem } from '../list/listItem';
 import './item.css';
 
-export function Item(props) {
-  // const item = props.itemData.item;
+export function Item() {
   const selectedItemData = JSON.parse(localStorage.getItem('currentItem'));
-  // const selectedItemIndex = props.itemData.index;
   const selectedItemIndex = selectedItemData.index;
   const author = selectedItemData.item.author;
   const [title, setTitle] = React.useState(selectedItemData.item.title);
   const [description, setDescription] = React.useState(selectedItemData.item.description);
   const navigate = useNavigate();
-  console.log(selectedItemData);
 
   function submitEdits(item) {
-    // props.setList(props.list.map((element, index) => index === selectedItemIndex ? item : element));
-    // props.setCurrentItem({item: item, index: selectedItemIndex});
     const list = JSON.parse(localStorage.getItem('list'));
     list[selectedItemIndex] = item;
     localStorage.setItem('list', JSON.stringify(list));
-    // localStorage.setItem('currentItem', JSON.stringify({item: new item("", "", ""), index: 0}));
     navigate('/list');
   }
 

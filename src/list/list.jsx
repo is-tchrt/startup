@@ -54,15 +54,18 @@ export function List(props) {
 
   async function editItem(item) {
     localStorage.setItem('currentItem', JSON.stringify(item));
-    props.setList(list);
-    props.setCurrentItem(item);
+    // props.setList(list);
+    // props.setCurrentItem(item);
     navigate('/item');
   }
   
   return (
     <main className="list">
       <div>
-        <h2>To-do:</h2>
+        <div className="title">
+          <h2>To-do:</h2>
+          <button type="submit" className='btn btn-secondary' onClick={() => editItem({item: new listItem("", "", props.userName), index: list.length})}>Add an Item</button>
+        </div>
         <form name="todo">
           {list.map((item, index) => (
             <DisplayItem item={item} index={index} removeCompletedItem={removeCompletedItem} editItem={editItem} key={index}/>

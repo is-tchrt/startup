@@ -11,6 +11,17 @@
   border-bottom: 1px solid black;
 }
 
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title button {
+  float: end;
+  margin: 0 5px;
+}
+
 .todo {
   display: flex;
   padding: 15px 0 5px 5px;

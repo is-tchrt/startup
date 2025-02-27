@@ -36,7 +36,7 @@ export default function App() {
         <Routes>
           <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List list={list} setList={(list) => setList(list)} setCurrentItem={(item) => setCurrentItem(item)} /> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List userName={userName} list={list} setList={(list) => setList(list)} setCurrentItem={(item) => setCurrentItem(item)} /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item itemData={currentItem} list={list} userName={userName} setList={setList} setCurrentItem={setCurrentItem}/> : <NotAllowed />} />
           <Route path='*' element={<NotFound />} />
         </Routes>

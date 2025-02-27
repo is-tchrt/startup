@@ -1,49 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './list.css';
+import { listItem } from './listItem';
 
 export function List(props) {
-  console.log("Refreshed");
-  // const [list, setList] = localStorage.getItem('list') ?
-  //   React.useState(JSON.parse(localStorage.getItem('list'))) :
-  //   React.useState([]);
-  const [list, setList] = React.useState(props.list);
-  console.log(props.list);
+  const [list, setList] = React.useState(JSON.parse(localStorage.getItem('list')) || []);
   const [checkedValues, setCheckedValues] = React.useState(list.map(() => false));
   const navigate = useNavigate();
 
-  // function formatList(todoList) {
-  //   let listItems = [];
-  //   for (item of todoList) {
-  //     listItems.push(
-  //       <div className="todo">
-  //         <input type="checkbox" />
-  //         <label>{item.title}</label>
-  //         <span>-- Added by {item.author}</span><br/>
-  //       </div>
-  //     );
-  //   }
-  //   return listItems;
-  // }
-
-  function listUpdates() {
-    setInterval(() => {
+  // function listUpdates() {
+  useEffect(() => {
+    const interval = setInterval(() => {
       let title = Math.floor(Math.random() * 2000);
       let description = "A descriptive description.";
       let author = "anon."
       // props.setList(props.list.concat([{title: title, description: description, author: author}]));
-      let newList = list.concat([{title: title, description: description, author: author}])
+      // let newList = list.concat([{title: title, description: description, author: author}])
       // setList(list.concat([{title: title, description: description, author: author}]));
-      localStorage.setItem('list', JSON.stringify(newList));
       // props.setList(newList);
-      setList(newList);
+      const newItem = new listItem(title, description, author);
+      setList((prevList) => [...prevList, newItem]);
+      localStorage.setItem('list', JSON.stringify(list));
       // console.log("props: ", props.list);
-      console.log("list: ", list);
       // props.setList(list);
-      }, 10000)
-  }
+      }, 10000);
+      return () => clearInterval(interval);
+  }, []);
 
-  listUpdates();
+  console.log(localStorage.getItem('list'));
+  console.log(list);
+  // listUpdates();
 
   function updateCheckedValues(changeIndex) {
     return checkedValues.map((item, index) => index === changeIndex ? !item : item)
@@ -51,10 +37,10 @@ export function List(props) {
 
   function removeCompletedItem(index) {
     // props.setList(props.list.slice(0, index).concat(props.list.slice(index + 1)));
-    newList = list.slice(0, index).concat(list.slice(index + 1));
-    // setList(list.slice(0, index).concat(list.slice(index + 1)));
+    const newList = list.slice(0, index).concat(list.slice(index + 1));
     localStorage.setItem('list', JSON.stringify(newList));
-    setList(newList);
+    setList(list.slice(0, index).concat(list.slice(index + 1)));
+    // setList(newList);
     // console.log("Remove prop: ", props.list);
     console.log("Remove list: ", list);
     // console.log(list);
@@ -109,7 +95,7 @@ function DisplayItem(props) {
                 <span>-- Added by {props.item.author}</span><br/>
               </div>
               <div>
-                {checked && (<button type="submit" className='btn btn-primary' onClick={() => removeCompletedItem(props.index)}>Mark as Completed?</button>)}
+                {checked && (<button type="submit" className='btn btn-primary' onClick={() => props.removeCompletedItem(props.index)}>Mark as Completed?</button>)}
                 <button type="submit" className="btn btn-secondary" onClick={() => props.editItem({item: props.item, index: props.index})}>Edit</button>
                 {// <button type="submit" className="btn btn-secondary" onClick={() => navigate("/item", {state: {item: item, setList: setList}})}>Edit</button>
                 }

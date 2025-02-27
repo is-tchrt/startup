@@ -103,8 +103,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - Mostly mocked out with localStorage. Websocket imitated with setInterval and useEffect. The filler text on the item edit page will be provided by a third-party service.
+- [ ] **Hooks** - Used useEffect to simulate Websocket and useState to render changed state in the list.
 
 ## 🚀 Service deliverable
 

@@ -33,6 +33,7 @@ export function Item(props) {
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" placeholder="Lorem ipsum" cols="40" rows="6"></textarea>
         </div>
         <button type="submit" className="btn btn-primary" onClick={() => submitEdits(new listItem(title, description, author))} disabled={!title}>Submit</button>
+        <button type="submit" className="btn btn-secondary" onClick={() => navigate('/list')}>Cancel</button>
       </form>
     </main>
   );

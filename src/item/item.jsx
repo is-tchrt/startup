@@ -9,8 +9,8 @@ export function Item(props) {
   // const selectedItemIndex = props.itemData.index;
   const selectedItemIndex = selectedItemData.index;
   const author = selectedItemData.item.author;
-  const [title, setTitle] = React.useState(props.itemData.item.title);
-  const [description, setDescription] = React.useState(props.itemData.item.description);
+  const [title, setTitle] = React.useState(selectedItemData.item.title);
+  const [description, setDescription] = React.useState(selectedItemData.item.description);
   const navigate = useNavigate();
   console.log(selectedItemData);
 
@@ -20,9 +20,11 @@ export function Item(props) {
     const list = JSON.parse(localStorage.getItem('list'));
     list[selectedItemIndex] = item;
     localStorage.setItem('list', JSON.stringify(list));
-    localStorage.setItem('currentItem', JSON.stringify({item: item, index: selectedItemIndex}));
+    // localStorage.setItem('currentItem', JSON.stringify({item: new item("", "", ""), index: 0}));
     navigate('/list');
   }
+
+  const filler = "Lorem ipsum";
 
   return (
     <main className="item">
@@ -30,7 +32,7 @@ export function Item(props) {
       <form>
         <p className="form-group"><input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="form-control" placeholder="Title" /></p>
         <div className="form-group">
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" placeholder="Lorem ipsum" cols="40" rows="6"></textarea>
+          <textarea value={description} onChange={(e) => setDescription(e.target.value)} className="form-control" placeholder={filler} cols="40" rows="6"></textarea>
         </div>
         <button type="submit" className="btn btn-primary" onClick={() => submitEdits(new listItem(title, description, author))} disabled={!title}>Submit</button>
         <button type="submit" className="btn btn-secondary" onClick={() => navigate('/list')}>Cancel</button>

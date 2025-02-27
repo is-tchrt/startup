@@ -8,11 +8,16 @@ import { List } from './list/list';
 import { Item } from './item/item';
 
 export default function App() {
+  console.log("refreshed app");
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
+  // const [list, setList] = localStorage.getItem('list') ?
+  //   React.useState(JSON.parse(localStorage.getItem('list'))) :
+  //   React.useState([]);
+  const [list, setList] = React.useState(JSON.parse(localStorage.getItem('list')) || [])
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
-  const [currentItem, setCurrentItem] = React.useState(JSON.parse(localStorage.getItem('currentItem')) || {title: "", description: "", author: ""});
+  const [currentItem, setCurrentItem] = React.useState(JSON.parse(localStorage.getItem('currentItem')) || {item: {title: "", description: "", author: ""}});
   
   return (
     <BrowserRouter>
@@ -32,8 +37,8 @@ export default function App() {
         <Routes>
           <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List setCurrentItem={setCurrentItem} /> : <NotAllowed />} />
-          <Route path='/item' element={loggedIn ? <Item item={currentItem} /> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List list={list} setList={setList} setCurrentItem={setCurrentItem} /> : <NotAllowed />} />
+          <Route path='/item' element={loggedIn ? <Item itemData={currentItem} list={list} userName={userName} setList={setList} setCurrentItem={setCurrentItem}/> : <NotAllowed />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
 

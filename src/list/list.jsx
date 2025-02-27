@@ -8,6 +8,10 @@ export function List(props) {
   const [checkedValues, setCheckedValues] = React.useState(list.map(() => false));
   const navigate = useNavigate();
 
+  useEffect(() => {
+      localStorage.setItem('list', JSON.stringify(list));
+    }, [list]);
+
   // function listUpdates() {
   useEffect(() => {
     const interval = setInterval(() => {
@@ -20,7 +24,7 @@ export function List(props) {
       // props.setList(newList);
       const newItem = new listItem(title, description, author);
       setList((prevList) => [...prevList, newItem]);
-      localStorage.setItem('list', JSON.stringify(list));
+      // localStorage.setItem('list', JSON.stringify(list));
       // console.log("props: ", props.list);
       // props.setList(list);
       }, 10000);
@@ -61,7 +65,7 @@ export function List(props) {
         <h2>To-do:</h2>
         <form name="todo">
           {list.map((item, index) => (
-            <DisplayItem item={item} index={index} removeCompletedItem={removeCompletedItem} editItem={editItem} />
+            <DisplayItem item={item} index={index} removeCompletedItem={removeCompletedItem} editItem={editItem} key={index}/>
             // <div className="todo">
             //   <div className="itemData">
             //     <input type="checkbox" checked={checkedValues[index]} onChange={() => {setCheckedValues(updateCheckedValues(index))}}/>

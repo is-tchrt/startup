@@ -69,17 +69,15 @@ apiRouter.put('/group', async (req, res) => {
 
 // Add a list item
 apiRouter.post('/list', verifyAuth, async (req, res) => {
-  console.log(req.body);
   const group = req.body.group;
   const item = req.body.item;
-  item.index = nextIndex++;
+  item.id = nextIndex++;
   group['list'].push(req.body.item);
   res.status(200).send({list: group['list']});
 });
 
 // Get the list for the users group
 apiRouter.get('/list', verifyAuth, async (req, res) => {
-  console.log("getting list");
   const list = req.body.group['list'] || [];
   res.status(200).send({list: list});
 });
@@ -94,12 +92,16 @@ apiRouter.put('/list', verifyAuth, async (req, res) => {
 
 // Delete an item from the list
 apiRouter.delete('/list', verifyAuth, async (req, res) => {
-  const group = groups.find((group) => {group['name'] === req.body.user.group});
-  const item = group['list'].find((item) => {item.id === req.body.itemId});
+  console.log(req.body);
+  const group = req.body.group;
+  // const item = group['list'].find((item) => {item['id'] === req.body.itemId});
+  const item = findItem('id', req.body.itemId, group['list']);
+  console.log("item: ", item);
   if (item) {
-    delete item;
+    group['list'] = group['list'].filter((currentItem) => {console.log(currentItem); return currentItem['id'] !== req.body.itemId;});
   }
-  res.status(204).send({list: group['list']});
+  console.log(group['list']);
+  res.status(200).send({list: group['list']});
 });
 
 async function verifyAuth(req, res, next) {
@@ -120,6 +122,10 @@ function findUser(field, value) {
 
 function findGroup(field, value) {
   return groups.find((group) => group[field] === value);
+}
+
+function findItem(field, value, list) {
+  return list.find((item) => item[field] === value);
 }
 
 async function addUser(username, password) {

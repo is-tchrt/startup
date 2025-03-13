@@ -40,15 +40,28 @@ export function List(props) {
         },
       }).then((response) => response.json()).then((json) => setList(json.list));
       // setList((prevList) => [...prevList, newItem]);
-      }, 10000);
+      }, 2000);
       return () => clearInterval(interval);
   }, []);
 
 
-  function removeCompletedItem(index) {
-    const newList = list.slice(0, index).concat(list.slice(index + 1));
-    localStorage.setItem('list', JSON.stringify(newList));
-    setList(list.slice(0, index).concat(list.slice(index + 1)));
+  async function removeCompletedItem(itemId) {
+    const response = await fetch('/api/list', {
+      method: 'delete',
+      body: JSON.stringify({itemId: itemId}),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+    if (response?.status === 200) {
+      console.log("working?");
+      let json = await response.json();
+      console.log("after removing: ", json.list);
+      setList(json.list);
+    }
+    // const newList = list.slice(0, index).concat(list.slice(index + 1));
+    // localStorage.setItem('list', JSON.stringify(newList));
+    // setList(list.slice(0, index).concat(list.slice(index + 1)));
   }
 
   async function editItem(item) {
@@ -61,7 +74,7 @@ export function List(props) {
       <div>
         <div className="title">
           <h2>To-do:</h2>
-          <button type="submit" className='btn btn-secondary' onClick={() => editItem({item: new listItem("", "", props.userName), index: list.length})}>Add an Item</button>
+          <button type="button" className='btn btn-secondary' onClick={() => editItem({item: new listItem("", "", props.userName), index: list.length})}>Add an Item</button>
         </div>
         <form name="todo">
           {list.map((item, index) => (
@@ -77,7 +90,6 @@ export function List(props) {
 
 function DisplayItem(props) {
   const [checked, setChecked] = React.useState(false);
-  console.log("item: ", props.item);
 
   return (
             <div className="todo">
@@ -87,8 +99,8 @@ function DisplayItem(props) {
                 <span>-- Added by {props.item.author}</span><br/>
               </div>
               <div>
-                {checked && (<button type="submit" className='btn btn-primary' onClick={() => props.removeCompletedItem(props.index)}>Mark as Completed?</button>)}
-                <button type="submit" className="btn btn-secondary" onClick={() => props.editItem({item: props.item, index: props.index})}>Edit</button>
+                {checked && (<button type="button" className='btn btn-primary' onClick={() => {setChecked(!checked); props.removeCompletedItem(props.item.id);}}>Mark as Completed?</button>)}
+                <button type="button" className="btn btn-secondary" onClick={() => props.editItem({item: props.item, index: props.index})}>Edit</button>
               </div>
             </div>
   )

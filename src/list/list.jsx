@@ -79,8 +79,8 @@ export function List(props) {
           <button type="button" className='btn btn-secondary' onClick={() => editItem(null)}>Add an Item</button>
         </div>
         <form name="todo">
-          {list.map((item, index) => (
-            <DisplayItem item={item} index={index} removeCompletedItem={removeCompletedItem} editItem={editItem} key={index}/>
+          {list.map((item) => (
+            <DisplayItem item={item} removeCompletedItem={removeCompletedItem} editItem={editItem} key={item.id}/>
           )
           )
         }
@@ -102,7 +102,7 @@ function DisplayItem(props) {
               </div>
               <div>
                 {checked && (<button type="button" className='btn btn-primary' onClick={() => {setChecked(!checked); props.removeCompletedItem(props.item.id);}}>Mark as Completed?</button>)}
-                <button type="button" className="btn btn-secondary" onClick={() => props.editItem({item: props.item})}>Edit</button>
+                <button type="button" className="btn btn-secondary" onClick={() => props.editItem(props.item)}>Edit</button>
               </div>
             </div>
   )

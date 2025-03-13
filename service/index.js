@@ -13,6 +13,7 @@ const authCookieName = 'token';
 // groups list.
 let users = [];
 let groups = [];
+let nextIndex = 1;
 
 app.use(express.json());
 
@@ -24,7 +25,7 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 apiRouter.post('/create', async (req, res) => {
-  if (await findUser('username', req.body.username)) {
+  if (findUser('username', req.body.username)) {
     res.status(409).send({msg: 'username unavailable'});
   } else {
     const user = await addUser(req.body.username, req.body.password);
@@ -34,7 +35,7 @@ apiRouter.post('/create', async (req, res) => {
 });
 
 apiRouter.post('/login', async (req, res) => {
-  const user = await findUser('username', req.body.username);
+  const user = findUser('username', req.body.username);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
@@ -47,7 +48,7 @@ apiRouter.post('/login', async (req, res) => {
 });
 
 apiRouter.delete('/logout', async (req, res) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = findUser('token', req.cookies[authCookieName]);
   if (user) {
     delete user.token;
   }
@@ -57,7 +58,10 @@ apiRouter.delete('/logout', async (req, res) => {
 
 apiRouter.put('/group', async (req, res) => {
   console.log('worked');
-  const user = await findUser('token', req.cookies[authCookieName]);
+  if (!groups.find((group) => {group['name'] === req.body.group})) {
+    groups.push({name: req.body.group, list: []});
+  }
+  const user = findUser('token', req.cookies[authCookieName]);
   if (user) {
     user.group = req.body.group;
   }
@@ -65,7 +69,33 @@ apiRouter.put('/group', async (req, res) => {
   res.status(200).send();
 });
 
-async function findUser(field, value) {
+apiRouter.post('/list', verifyAuth, async (req, res) => {
+  const group = groups.find((group) => {group['name'] === req.body.user.group});
+  const item = req.body.item;
+  item.index = nextItem++;
+  group['list'].push(req.body.item);
+});
+
+apiRouter.delete('/list', verifyAuth, async (req, res) => {
+  const group = groups.find((group) => {group['name'] === req.body.user.group});
+  const item = group['list'].find((item) => {item.id === req.body.itemId});
+  if (item) {
+    delete item;
+  }
+  res.status(204).send({list: group['list']});
+});
+
+async function verifyAuth(req, res, next) {
+  const user = findUser('token', req.cookies[authCookieName]);
+  if (user) {
+    req.body.user = user;
+    next();
+  } else {
+    res.status(401).send({msg: "Unauthorized"});
+  }
+}
+
+function findUser(field, value) {
   return users.find((user) => user[field] === value);
 }
 

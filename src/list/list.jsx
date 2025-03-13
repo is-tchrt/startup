@@ -3,8 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import './list.css';
 import { listItem } from './listItem';
 
+async function getList() {
+  const response = await fetch('/api/list', {
+    method: 'get',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+  });
+  if (response?.status === 200) {
+    return response.body.list;
+  } else {
+    return ['duck'];
+  }
+}
+
 export function List(props) {
-  const [list, setList] = React.useState(JSON.parse(localStorage.getItem('list')) || []);
+  const [list, setList] = React.useState([props.list]);
+  console.log(props.list);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +36,7 @@ export function List(props) {
       }, 10000);
       return () => clearInterval(interval);
   }, []);
+
 
   function removeCompletedItem(index) {
     const newList = list.slice(0, index).concat(list.slice(index + 1));

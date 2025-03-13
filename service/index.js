@@ -57,7 +57,6 @@ apiRouter.delete('/logout', async (req, res) => {
 });
 
 apiRouter.put('/group', async (req, res) => {
-  console.log('worked');
   if (!groups.find((group) => {group['name'] === req.body.group})) {
     groups.push({name: req.body.group, list: []});
   }
@@ -65,7 +64,6 @@ apiRouter.put('/group', async (req, res) => {
   if (user) {
     user.group = req.body.group;
   }
-  console.log(user);
   res.status(200).send();
 });
 
@@ -80,7 +78,9 @@ apiRouter.post('/list', verifyAuth, async (req, res) => {
 
 // Get the list for the users group
 apiRouter.get('/list', verifyAuth, async (req, res) => {
-  res.status(200).send({list: req.body.group['list']});
+  console.log("getting list");
+  const list = req.body.group['list'] || [];
+  res.status(200).send({list: list});
 });
 
 // Update a list item
@@ -104,7 +104,7 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
 async function verifyAuth(req, res, next) {
   const user = findUser('token', req.cookies[authCookieName]);
   if (user) {
-    const group = groups.find((group) => {group['name'] === req.body.user.group});
+    const group = findGroup('name', user.group);
     req.body.user = user;
     req.body.group = group;
     next();
@@ -115,6 +115,10 @@ async function verifyAuth(req, res, next) {
 
 function findUser(field, value) {
   return users.find((user) => user[field] === value);
+}
+
+function findGroup(field, value) {
+  return groups.find((group) => group[field] === value);
 }
 
 async function addUser(username, password) {

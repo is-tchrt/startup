@@ -12,6 +12,7 @@ export default function App() {
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
+  const [list, setList] = React.useState(() => []);
   
   return (
     <BrowserRouter>
@@ -29,8 +30,8 @@ export default function App() {
 
         <Routes>
           <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
-          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List userName={userName} /> : <NotAllowed />} />
+          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} setList={(newList) => {setList(newList); console.log("app: ", list);}} /> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List list={list} userName={userName} /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item /> : <NotAllowed />} />
           <Route path='*' element={<NotFound />} />
         </Routes>

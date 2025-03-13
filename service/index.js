@@ -24,7 +24,6 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 apiRouter.post('/create', async (req, res) => {
-  console.log("doing stuff");
   if (await findUser('username', req.body.username)) {
     res.status(409).send({msg: 'username unavailable'});
   } else {
@@ -35,9 +34,7 @@ apiRouter.post('/create', async (req, res) => {
 });
 
 apiRouter.post('/login', async (req, res) => {
-  console.log("login");
   const user = await findUser('username', req.body.username);
-  console.log(user);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
@@ -49,7 +46,14 @@ apiRouter.post('/login', async (req, res) => {
   res.status(401).send({msg: "Unauthorized"});
 });
 
-apiRouter.delete('/logout', async () => {});
+apiRouter.delete('/logout', async (req, res) => {
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (user) {
+    delete user.token;
+  }
+  res.clearCookie(authCookieName);
+  res.status(204).end();
+});
 
 async function findUser(field, value) {
   return users.find((user) => user[field] === value);
@@ -72,7 +76,7 @@ function setAuthCookie(res, authToken) {
   res.cookie(authCookieName, authToken, {
     secure: true,
     httpOnly: true,
-    sameSite: 'strict',
+    SameSite: 'strict',
   });
 }
 

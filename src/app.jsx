@@ -46,8 +46,12 @@ export default function App() {
 }
 
 function Logout(props) {
-  localStorage.clear();
-  props.logout();
+  fetch('/api/logout', {
+    method: 'delete',
+  }).catch(() => {}).finally(() => {
+    localStorage.clear();
+    props.logout();
+  });
 }
 
 function NotFound() {

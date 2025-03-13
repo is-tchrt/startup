@@ -15,7 +15,6 @@ export function Login(props) {
 
   async function register() {
     localStorage.setItem('userName', userName);
-    console.log("doing stuff");
     loginOrRegister('/api/create');
     // navigate("/group");
   }

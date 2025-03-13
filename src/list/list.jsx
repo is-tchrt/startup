@@ -65,7 +65,9 @@ export function List(props) {
   }
 
   async function editItem(item) {
-    localStorage.setItem('currentItem', JSON.stringify(item));
+    // localStorage.setItem('currentItem', JSON.stringify(item));
+    console.log("editItem item: ", item);
+    props.setItem(item);
     navigate('/item');
   }
   
@@ -74,7 +76,7 @@ export function List(props) {
       <div>
         <div className="title">
           <h2>To-do:</h2>
-          <button type="button" className='btn btn-secondary' onClick={() => editItem({item: new listItem("", "", props.userName), index: list.length})}>Add an Item</button>
+          <button type="button" className='btn btn-secondary' onClick={() => editItem(null)}>Add an Item</button>
         </div>
         <form name="todo">
           {list.map((item, index) => (
@@ -100,7 +102,7 @@ function DisplayItem(props) {
               </div>
               <div>
                 {checked && (<button type="button" className='btn btn-primary' onClick={() => {setChecked(!checked); props.removeCompletedItem(props.item.id);}}>Mark as Completed?</button>)}
-                <button type="button" className="btn btn-secondary" onClick={() => props.editItem({item: props.item, index: props.index})}>Edit</button>
+                <button type="button" className="btn btn-secondary" onClick={() => props.editItem({item: props.item})}>Edit</button>
               </div>
             </div>
   )

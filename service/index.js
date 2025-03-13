@@ -69,9 +69,10 @@ apiRouter.put('/group', async (req, res) => {
 
 // Add a list item
 apiRouter.post('/list', verifyAuth, async (req, res) => {
-  const group = groups.find((group) => {group['name'] === req.body.user.group});
+  console.log(req.body);
+  const group = req.body.group;
   const item = req.body.item;
-  item.index = nextItem++;
+  item.index = nextIndex++;
   group['list'].push(req.body.item);
   res.status(200).send({list: group['list']});
 });

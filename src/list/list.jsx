@@ -18,13 +18,13 @@ async function getList() {
 }
 
 export function List(props) {
-  const [list, setList] = React.useState([props.list]);
-  console.log(props.list);
+  const [list, setList] = React.useState(props.list);
+  console.log("list: ", list);
   const navigate = useNavigate();
 
-  useEffect(() => {
-      localStorage.setItem('list', JSON.stringify(list));
-    }, [list]);
+  // useEffect(() => {
+  //     localStorage.setItem('list', JSON.stringify(list));
+  //   }, [list]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -32,7 +32,14 @@ export function List(props) {
       let description = "A descriptive description.";
       let author = "anon."
       const newItem = new listItem(title, description, author);
-      setList((prevList) => [...prevList, newItem]);
+      fetch('api/list', {
+        method: 'post',
+        body: JSON.stringify({item: newItem}),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+        },
+      }).then((response) => response.json()).then((json) => setList(json.list));
+      // setList((prevList) => [...prevList, newItem]);
       }, 10000);
       return () => clearInterval(interval);
   }, []);
@@ -70,6 +77,7 @@ export function List(props) {
 
 function DisplayItem(props) {
   const [checked, setChecked] = React.useState(false);
+  console.log("item: ", props.item);
 
   return (
             <div className="todo">

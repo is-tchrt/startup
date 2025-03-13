@@ -69,13 +69,29 @@ apiRouter.put('/group', async (req, res) => {
   res.status(200).send();
 });
 
+// Add a list item
 apiRouter.post('/list', verifyAuth, async (req, res) => {
   const group = groups.find((group) => {group['name'] === req.body.user.group});
   const item = req.body.item;
   item.index = nextItem++;
   group['list'].push(req.body.item);
+  res.status(200).send({list: group['list']});
 });
 
+// Get the list for the users group
+apiRouter.get('/list', verifyAuth, async (req, res) => {
+  res.status(200).send({list: req.body.group['list']});
+});
+
+// Update a list item
+apiRouter.put('/list', verifyAuth, async (req, res) => {
+  const group = req.body.group;
+  const item = group['list'].find((item) => {item.id === req.body.itemId});
+  updateItem(item, req.body.item);
+  res.status(200).send({list: group['list']});
+});
+
+// Delete an item from the list
 apiRouter.delete('/list', verifyAuth, async (req, res) => {
   const group = groups.find((group) => {group['name'] === req.body.user.group});
   const item = group['list'].find((item) => {item.id === req.body.itemId});
@@ -88,7 +104,9 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
 async function verifyAuth(req, res, next) {
   const user = findUser('token', req.cookies[authCookieName]);
   if (user) {
+    const group = groups.find((group) => {group['name'] === req.body.user.group});
     req.body.user = user;
+    req.body.group = group;
     next();
   } else {
     res.status(401).send({msg: "Unauthorized"});
@@ -110,6 +128,11 @@ async function addUser(username, password) {
   users.push(user);
 
   return user;
+}
+
+function updateItem(item, newItem) {
+  item.title = newItem.title;
+  item.description = newItem.description;
 }
 
 function setAuthCookie(res, authToken) {

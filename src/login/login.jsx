@@ -44,7 +44,7 @@ export function Login(props) {
         <div className="form-group">
           <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         </div>
-        <Button variant="btn btn-primary" onClick={() => login()} disabled={!userName || !password}>Login</Button>
+        <button type="button" className="btn btn-primary" onClick={() => login()} disabled={!userName || !password}>Login</button>
         <button type="button" className="btn btn-secondary" onClick={() => register()} disabled={!userName || !password}>Register</button>
       </form>
     </main>

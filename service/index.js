@@ -55,6 +55,16 @@ apiRouter.delete('/logout', async (req, res) => {
   res.status(204).end();
 });
 
+apiRouter.put('/group', async (req, res) => {
+  console.log('worked');
+  const user = await findUser('token', req.cookies[authCookieName]);
+  if (user) {
+    user.group = req.body.group;
+  }
+  console.log(user);
+  res.status(200).send();
+});
+
 async function findUser(field, value) {
   return users.find((user) => user[field] === value);
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 export function Login(props) {
@@ -8,15 +7,11 @@ export function Login(props) {
   const [password, setPassword] = React.useState('');
 
   async function login() {
-    // localStorage.setItem('userName', userName);
-    // props.onLogin(userName);
     await loginOrRegister('/api/login');
   }
 
   async function register() {
-    // localStorage.setItem('userName', userName);
     await loginOrRegister('/api/create');
-    // navigate("/group");
   }
 
   async function loginOrRegister(endpoint) {
@@ -30,8 +25,6 @@ export function Login(props) {
     if (response?.status === 200) {
       localStorage.setItem('userName', userName);
       props.onLogin(userName);
-      console.log(userName);
-      console.log(props.userName);
       navigate("/group");
     }
   }

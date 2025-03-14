@@ -69,7 +69,6 @@ apiRouter.put('/group', async (req, res) => {
 
 // Add a list item
 apiRouter.post('/list', verifyAuth, async (req, res) => {
-  console.log("posting things");
   const group = req.body.group;
   const item = req.body.item;
   item.id = nextIndex++;
@@ -86,8 +85,6 @@ apiRouter.get('/list', verifyAuth, async (req, res) => {
 // Update a list item
 apiRouter.put('/list', verifyAuth, async (req, res) => {
   const group = req.body.group;
-  // const item = group['list'].find((item) => {item.id === req.body.itemId});
-  console.log(req.body);
   const item = findItem('id', req.body.item.id, group['list']);
   updateItem(item, req.body.item);
   res.status(200).send({list: group['list']});
@@ -101,7 +98,6 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
 });
 
 async function verifyAuth(req, res, next) {
-  console.log("cookie: ", req.cookies[authCookieName]);
   const user = findUser('token', req.cookies[authCookieName]);
   if (user) {
     const group = findGroup('name', user.group);

@@ -6,7 +6,6 @@ export function Group(props) {
   const [group, setGroup] = React.useState(props.group);
 
   async function getList() {
-    console.log('called this function');
     const response = await fetch('/api/list', {
       method: 'get',
       headers: {

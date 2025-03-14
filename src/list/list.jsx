@@ -3,28 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import './list.css';
 import { listItem } from './listItem';
 
-async function getList() {
-  const response = await fetch('/api/list', {
-    method: 'get',
-    headers: {
-      'Content-type': 'application/json; charset=UTF-8',
-    },
-  });
-  if (response?.status === 200) {
-    return response.body.list;
-  } else {
-    return ['duck'];
-  }
-}
-
 export function List(props) {
   const [list, setList] = React.useState(props.list);
-  console.log("list: ", list);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //     localStorage.setItem('list', JSON.stringify(list));
-  //   }, [list]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,7 +20,6 @@ export function List(props) {
           'Content-type': 'application/json; charset=UTF-8',
         },
       }).then((response) => response.json()).then((json) => setList(json.list));
-      // setList((prevList) => [...prevList, newItem]);
       }, 10000);
       return () => clearInterval(interval);
   }, []);
@@ -54,19 +34,12 @@ export function List(props) {
       },
     });
     if (response?.status === 200) {
-      console.log("working?");
       let json = await response.json();
-      console.log("after removing: ", json.list);
       setList(json.list);
     }
-    // const newList = list.slice(0, index).concat(list.slice(index + 1));
-    // localStorage.setItem('list', JSON.stringify(newList));
-    // setList(list.slice(0, index).concat(list.slice(index + 1)));
   }
 
   async function editItem(item) {
-    // localStorage.setItem('currentItem', JSON.stringify(item));
-    console.log("editItem item: ", item);
     props.setItem(item);
     navigate('/item');
   }

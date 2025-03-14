@@ -9,10 +9,8 @@ import { Item } from './item/item';
 
 export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
-  console.log("app: ", userName);
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
-  console.log(loggedIn);
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
   const [list, setList] = React.useState(() => []);
   const [item, setItem] = React.useState(() => {});
@@ -36,9 +34,8 @@ export default function App() {
           <Route path='/' element={<Login userName={userName} onLogin={(userName) => {
               setUserName(userName);
               setLoggedIn(true);
-              console.log('logging');
           }} />} exact />
-          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} setList={(newList) => {setList(newList); console.log("app: ", list);}} /> : <NotAllowed />} />
+          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} setList={(newList) => {setList(newList);}} /> : <NotAllowed />} />
           <Route path='/list' element={loggedIn ? <List list={list} userName={userName} setItem={(newItem) => {setItem(newItem)}} /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item item={item} setItem={(newItem) => {setItem(newItem)}} setList={(newList) => {setList(newList)}} userName={userName} /> : <NotAllowed />} />
           <Route path='/logout' element={<Logout logout={() => setLoggedIn(false)} />} />

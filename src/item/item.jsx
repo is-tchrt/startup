@@ -4,27 +4,13 @@ import { listItem } from '../list/listItem';
 import './item.css';
 
 export function Item(props) {
-  // const selectedItemData = JSON.parse(localStorage.getItem('currentItem'));
-  // const selectedItemIndex = selectedItemData.index;
-  // const selectedItemData = props;
-  if (props.item) {
-  console.log("props item: ", props.item);
-  } else {
-    console.log("problem");
-  }
   const author = props.item ? props.item.author : props.userName;
-  console.log("author: ", author);
   const [title, setTitle] = React.useState(props.item ? props.item.title : "");
   const [description, setDescription] = React.useState(props.item ? props.item.description : "");
   const [quote, setQuote] = React.useState("loading...");
   const navigate = useNavigate();
 
   async function submitEdits(item) {
-    console.log("props item: ", props.item);
-      // const list = JSON.parse(localStorage.getItem('list'));
-      // list[selectedItemIndex] = item;
-      // localStorage.setItem('list', JSON.stringify(list));
-      // navigate('/list');
     if (props.item) {
       item.id = props.item.id;
     }
@@ -48,23 +34,8 @@ export function Item(props) {
     }
   }
 
-  // async function editItem(item) {
-  //   const response = await fetch('/api/list', {
-  //     method: 'put',
-  //     body: JSON.stringify({item: item}),
-  //     headers: {
-  //       'Content-type': 'application/json; charset=UTF-8',
-  //     },
-  //   });
-  //   if (response?.status === 200) {
-  //     const json = await response.json();
-  //     return json.list;
-  //   }
-  // }
-
-  const filler = "Lorem ipsum";
   useEffect (() => {
-    const response = fetch('https://quote.cs260.click/')
+    fetch('https://quote.cs260.click/')
     .then(response => response.json())
     .then(data => setQuote(data.quote));
   }, []);

@@ -110,11 +110,11 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - I installed express and set up a server to listen on port 4000.
+- [x] **Static middleware for frontend** - I set up express to send static files from the public directory.
+- [x] **Calls to third party endpoints** - Call to cs260 quote api for filler text when creating an item (item.jsx);
+- [x] **Backend service endpoints** - Simple endpoints for authentication, group selection, and list manipulation.
+- [x] **Frontend calls service endpoints** - Frontend calls backend instead of mocking functionality. Fully supports authentication and restricts access to data if not logged in.
 
 ## 🚀 DB/Login deliverable
 

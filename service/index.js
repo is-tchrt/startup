@@ -101,6 +101,7 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
 });
 
 async function verifyAuth(req, res, next) {
+  console.log("cookie: ", req.cookies[authCookieName]);
   const user = findUser('token', req.cookies[authCookieName]);
   if (user) {
     const group = findGroup('name', user.group);
@@ -113,6 +114,8 @@ async function verifyAuth(req, res, next) {
 }
 
 function findUser(field, value) {
+  if (!value) return null;
+
   return users.find((user) => user[field] === value);
 }
 

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import { Login } from './login/login';
 import { Group } from './group/group';
 import { List } from './list/list';
@@ -9,12 +9,14 @@ import { Item } from './item/item';
 
 export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+  console.log("app: ", userName);
   const currentLoginState = userName ? true : false;
   const [loggedIn, setLoggedIn] = React.useState(currentLoginState);
+  console.log(loggedIn);
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
   const [list, setList] = React.useState(() => []);
   const [item, setItem] = React.useState(() => {});
-  
+
   return (
     <BrowserRouter>
       <div className="body">
@@ -24,16 +26,22 @@ export default function App() {
             <ul className="navbar-nav">
               {loggedIn && (<li className="nav-item"><NavLink to="group" className="nav-link">Group Selection</NavLink></li>)}
               {loggedIn && group && (<li className="nav-item"><NavLink to="list" className="nav-link">List</NavLink></li>)}
-              {!loggedIn ? (<li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>) : (<li className='nav-item'><NavLink to="" className="nav-link">Logout</NavLink></li>)}
+              {!loggedIn && (<li className="nav-item"><NavLink to="" className="nav-link">Login</NavLink></li>)}
+              {loggedIn && (<li className='nav-item'><NavLink to="logout" className="nav-link">Logout</NavLink></li>)}
             </ul>
           </nav>
         </header>
 
         <Routes>
-          <Route path='/' element={loggedIn ? <Logout logout={() => setLoggedIn(false)}/> : <Login userName={userName} onLogin={(userName) => {setUserName(userName)}} />} exact />
+          <Route path='/' element={<Login userName={userName} onLogin={(userName) => {
+              setUserName(userName);
+              setLoggedIn(true);
+              console.log('logging');
+          }} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} setList={(newList) => {setList(newList); console.log("app: ", list);}} /> : <NotAllowed />} />
           <Route path='/list' element={loggedIn ? <List list={list} userName={userName} setItem={(newItem) => {setItem(newItem)}} /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item item={item} setItem={(newItem) => {setItem(newItem)}} setList={(newList) => {setList(newList)}} userName={userName} /> : <NotAllowed />} />
+          <Route path='/logout' element={<Logout logout={() => setLoggedIn(false)} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
 
@@ -48,12 +56,14 @@ export default function App() {
 }
 
 function Logout(props) {
+  const navigate = useNavigate();
   fetch('/api/logout', {
     method: 'delete',
   }).catch(() => {}).finally(() => {
     localStorage.clear();
     props.logout();
   });
+  navigate('/');
 }
 
 function NotFound() {

@@ -8,13 +8,13 @@ export function Login(props) {
   const [password, setPassword] = React.useState('');
 
   async function login() {
-    localStorage.setItem('userName', userName);
+    // localStorage.setItem('userName', userName);
     // props.onLogin(userName);
     await loginOrRegister('/api/login');
   }
 
   async function register() {
-    localStorage.setItem('userName', userName);
+    // localStorage.setItem('userName', userName);
     await loginOrRegister('/api/create');
     // navigate("/group");
   }

@@ -40,7 +40,7 @@ export function List(props) {
         },
       }).then((response) => response.json()).then((json) => setList(json.list));
       // setList((prevList) => [...prevList, newItem]);
-      }, 2000);
+      }, 10000);
       return () => clearInterval(interval);
   }, []);
 

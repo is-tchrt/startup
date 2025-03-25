@@ -32,3 +32,15 @@ async function addUser(user) {
 async function updateUser(user) {
   await users.updateOne({username: user.username}, {$set: user});
 }
+
+function getGroup(name) {
+  return groups.findOne({name: name});
+}
+
+async function addGroup(group) {
+  await groups.insertOne(group);
+}
+
+async function updateGroupList(group) {
+  await groups.updateOne({name: group.name}, {$set: group});
+}

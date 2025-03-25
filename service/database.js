@@ -24,3 +24,11 @@ function getUserByUsername(username) {
 function getUserByToken(token) {
   return users.findOne({token: token});
 }
+
+async function addUser(user) {
+  await users.insertOne(user);
+}
+
+async function updateUser(user) {
+  await users.updateOne({username: user.username}, {$set: user});
+}

@@ -44,3 +44,13 @@ async function addGroup(group) {
 async function updateGroupList(group) {
   await groups.updateOne({name: group.name}, {$set: group});
 }
+
+module.exports = {
+  getUserByUsername,
+  getUserByToken,
+  addUser,
+  updateUser,
+  getGroup,
+  addGroup,
+  updateGroupList,
+}

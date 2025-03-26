@@ -18,6 +18,7 @@ const groups = db.collection('groups');
 })();
 
 function getUserByUsername(username) {
+  console.log("running getUserByUsername");
   return users.findOne({username: username});
 }
 
@@ -31,6 +32,10 @@ async function addUser(user) {
 
 async function updateUser(user) {
   await users.updateOne({username: user.username}, {$set: user});
+}
+
+async function logoutUser(token) {
+  await users.updateOne({token: token}, {$set: {token: null}});
 }
 
 function getGroup(name) {
@@ -50,6 +55,7 @@ module.exports = {
   getUserByToken,
   addUser,
   updateUser,
+  logoutUser,
   getGroup,
   addGroup,
   updateGroupList,

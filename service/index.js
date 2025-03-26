@@ -12,8 +12,8 @@ const authCookieName = 'token';
 // Store users and groups in memory. The todo list
 // for each group is stored within that group in the
 // groups list.
-let users = [];
-let groups = [];
+// let users = [];
+// let groups = [];
 let nextIndex = 1;
 
 app.use(express.json());
@@ -26,7 +26,7 @@ var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 apiRouter.post('/create', async (req, res) => {
-  if (findUser('username', req.body.username)) {
+  if (await findUser('username', req.body.username)) {
     res.status(409).send({msg: 'username unavailable'});
   } else {
     const user = await addUser(req.body.username, req.body.password);
@@ -36,10 +36,11 @@ apiRouter.post('/create', async (req, res) => {
 });
 
 apiRouter.post('/login', async (req, res) => {
-  const user = findUser('username', req.body.username);
+  const user = await findUser('username', req.body.username);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
+      await DB.updateUser(user);
       setAuthCookie(res, user.token);
       res.send({username: user.username});
       return;
@@ -49,21 +50,27 @@ apiRouter.post('/login', async (req, res) => {
 });
 
 apiRouter.delete('/logout', async (req, res) => {
-  const user = findUser('token', req.cookies[authCookieName]);
-  if (user) {
-    delete user.token;
-  }
+  // const user = findUser('token', req.cookies[authCookieName]);
+  // if (user) {
+  //   delete user.token;
+  // }
+  await DB.logoutUser(req.cookies[authCookieName]);
   res.clearCookie(authCookieName);
   res.status(204).end();
 });
 
 apiRouter.put('/group', async (req, res) => {
-  if (!groups.find((group) => {group['name'] === req.body.group})) {
-    groups.push({name: req.body.group, list: []});
+  // if (!groups.find((group) => {group['name'] === req.body.group})) {
+  //   groups.push({name: req.body.group, list: []});
+  // }
+  if (await DB.getGroup(req.body.group) === null) {
+    console.log("adding group");
+    await DB.addGroup({name: req.body.group, list: []});
   }
-  const user = findUser('token', req.cookies[authCookieName]);
+  const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
     user.group = req.body.group;
+    await DB.updateUser(user);
   }
   res.status(200).send();
 });
@@ -74,6 +81,7 @@ apiRouter.post('/list', verifyAuth, async (req, res) => {
   const item = req.body.item;
   item.id = nextIndex++;
   group['list'].push(req.body.item);
+  await DB.updateGroupList(group);
   res.status(200).send({list: group['list']});
 });
 
@@ -88,6 +96,7 @@ apiRouter.put('/list', verifyAuth, async (req, res) => {
   const group = req.body.group;
   const item = findItem('id', req.body.item.id, group['list']);
   updateItem(item, req.body.item);
+  await DB.updateGroupList(group);
   res.status(200).send({list: group['list']});
 });
 
@@ -95,13 +104,16 @@ apiRouter.put('/list', verifyAuth, async (req, res) => {
 apiRouter.delete('/list', verifyAuth, async (req, res) => {
   const group = req.body.group;
   group['list'] = group['list'].filter((currentItem) => {return currentItem['id'] !== req.body.itemId});
+  await DB.updateGroupList(group);
   res.status(200).send({list: group['list']});
 });
 
 async function verifyAuth(req, res, next) {
-  const user = findUser('token', req.cookies[authCookieName]);
+  const user = await findUser('token', req.cookies[authCookieName]);
+  console.log("verify auth user: ", user);
   if (user) {
-    const group = findGroup('name', user.group);
+    const group = await findGroup(user.group);
+    console.log("verify auth group: ", group);
     req.body.user = user;
     req.body.group = group;
     next();
@@ -110,14 +122,24 @@ async function verifyAuth(req, res, next) {
   }
 }
 
-function findUser(field, value) {
+async function findUser(field, value) {
   if (!value) return null;
 
-  return users.find((user) => user[field] === value);
+  if (field === "username") {
+    // return users.find((user) => user[field] === value);
+    user = await DB.getUserByUsername(value);
+    return user;
+  } else {
+    return await DB.getUserByToken(value);
+  }
 }
 
-function findGroup(field, value) {
-  return groups.find((group) => group[field] === value);
+// function findGroup(field, value) {
+//   return groups.find((group) => group[field] === value);
+// }
+
+async function findGroup(name) {
+  return await DB.getGroup(name);
 }
 
 function findItem(field, value, list) {
@@ -132,7 +154,8 @@ async function addUser(username, password) {
     password: hashedPassword,
     token: uuid.v4(),
   };
-  users.push(user);
+  // users.push(user);
+  await DB.addUser(user);
 
   return user;
 }

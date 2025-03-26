@@ -54,7 +54,7 @@ apiRouter.delete('/logout', async (req, res) => {
 });
 
 // Create/register the user's group
-apiRouter.put('/group', async (req, res) => {
+apiRouter.put('/group', verifyAuth, async (req, res) => {
   if (await DB.getGroup(req.body.group) === null) {
     await DB.addGroup({name: req.body.group, list: []});
   }

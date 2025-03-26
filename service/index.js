@@ -56,7 +56,6 @@ apiRouter.delete('/logout', async (req, res) => {
 // Create/register the user's group
 apiRouter.put('/group', async (req, res) => {
   if (await DB.getGroup(req.body.group) === null) {
-    console.log("adding group");
     await DB.addGroup({name: req.body.group, list: []});
   }
   const user = await findUser('token', req.cookies[authCookieName]);
@@ -102,10 +101,8 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
 
 async function verifyAuth(req, res, next) {
   const user = await findUser('token', req.cookies[authCookieName]);
-  console.log("verify auth user: ", user);
   if (user) {
     const group = await findGroup(user.group);
-    console.log("verify auth group: ", group);
     req.body.user = user;
     req.body.group = group;
     next();

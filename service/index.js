@@ -9,11 +9,6 @@ const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
 const authCookieName = 'token';
 
-// Store users and groups in memory. The todo list
-// for each group is stored within that group in the
-// groups list.
-// let users = [];
-// let groups = [];
 let nextIndex = 1;
 
 app.use(express.json());
@@ -25,6 +20,7 @@ app.use(express.static('public'));
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
+// Register a new user
 apiRouter.post('/create', async (req, res) => {
   if (await findUser('username', req.body.username)) {
     res.status(409).send({msg: 'username unavailable'});
@@ -35,6 +31,7 @@ apiRouter.post('/create', async (req, res) => {
   }
 });
 
+// Login a user
 apiRouter.post('/login', async (req, res) => {
   const user = await findUser('username', req.body.username);
   if (user) {
@@ -49,20 +46,15 @@ apiRouter.post('/login', async (req, res) => {
   res.status(401).send({msg: "Unauthorized"});
 });
 
+// Logout a user
 apiRouter.delete('/logout', async (req, res) => {
-  // const user = findUser('token', req.cookies[authCookieName]);
-  // if (user) {
-  //   delete user.token;
-  // }
   await DB.logoutUser(req.cookies[authCookieName]);
   res.clearCookie(authCookieName);
   res.status(204).end();
 });
 
+// Create/register the user's group
 apiRouter.put('/group', async (req, res) => {
-  // if (!groups.find((group) => {group['name'] === req.body.group})) {
-  //   groups.push({name: req.body.group, list: []});
-  // }
   if (await DB.getGroup(req.body.group) === null) {
     console.log("adding group");
     await DB.addGroup({name: req.body.group, list: []});
@@ -126,17 +118,12 @@ async function findUser(field, value) {
   if (!value) return null;
 
   if (field === "username") {
-    // return users.find((user) => user[field] === value);
     user = await DB.getUserByUsername(value);
     return user;
   } else {
     return await DB.getUserByToken(value);
   }
 }
-
-// function findGroup(field, value) {
-//   return groups.find((group) => group[field] === value);
-// }
 
 async function findGroup(name) {
   return await DB.getGroup(name);
@@ -154,7 +141,6 @@ async function addUser(username, password) {
     password: hashedPassword,
     token: uuid.v4(),
   };
-  // users.push(user);
   await DB.addUser(user);
 
   return user;

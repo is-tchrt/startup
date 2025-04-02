@@ -4,6 +4,7 @@ const express = require('express');
 const uuid = require('uuid');
 const app = express();
 const DB = require('./database');
+const { webSocket } = require('./webSocket');
 
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -156,6 +157,8 @@ function setAuthCookie(res, authToken) {
   });
 }
 
-app.listen(port, () => {
+const httpServer = app.listen(port, () => {
   console.log(`listening on port ${port}`);
 });
+
+webSocket(httpServer);

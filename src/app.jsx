@@ -14,6 +14,8 @@ export default function App() {
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
   const [list, setList] = React.useState(() => []);
   const [item, setItem] = React.useState(() => {});
+  const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
+  const socket = new WebSocket(`${protocol}://${window.location.host}`);
 
   return (
     <BrowserRouter>
@@ -36,7 +38,7 @@ export default function App() {
               setLoggedIn(true);
           }} />} exact />
           <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} setList={(newList) => {setList(newList);}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List list={list} userName={userName} setItem={(newItem) => {setItem(newItem)}} /> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List list={list} userName={userName} setItem={(newItem) => {setItem(newItem)}} socket={socket} /> : <NotAllowed />} />
           <Route path='/item' element={loggedIn ? <Item item={item} setItem={(newItem) => {setItem(newItem)}} setList={(newList) => {setList(newList)}} userName={userName} /> : <NotAllowed />} />
           <Route path='/logout' element={<Logout logout={() => setLoggedIn(false)} />} />
           <Route path='*' element={<NotFound />} />

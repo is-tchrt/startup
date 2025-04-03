@@ -18,7 +18,6 @@ const groups = db.collection('groups');
 })();
 
 function getUserByUsername(username) {
-  console.log("running getUserByUsername");
   return users.findOne({username: username});
 }
 

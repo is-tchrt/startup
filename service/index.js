@@ -56,7 +56,9 @@ apiRouter.delete('/logout', async (req, res) => {
 
 // Create/register the user's group
 apiRouter.put('/group', verifyAuth, async (req, res) => {
+  console.log("group: ", req.body.group);
   if (await DB.getGroup(req.body.group) === null) {
+    console.log("creating group");
     await DB.addGroup({name: req.body.group, list: []});
   }
   const user = await findUser('token', req.cookies[authCookieName]);
@@ -79,6 +81,7 @@ apiRouter.post('/list', verifyAuth, async (req, res) => {
 
 // Get the list for the users group
 apiRouter.get('/list', verifyAuth, async (req, res) => {
+  console.log("list: ", req.body.group);
   const list = req.body.group['list'] || [];
   res.status(200).send({list: list});
 });
@@ -101,11 +104,15 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
 });
 
 async function verifyAuth(req, res, next) {
+  console.log("verify body: ", req.body);
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
-    const group = await findGroup(user.group);
     req.body.user = user;
-    req.body.group = group;
+    if (user.group) {
+      console.log("verify user group: ", user.group);
+      const group = await findGroup(user.group);
+      req.body.group = group;
+    }
     next();
   } else {
     res.status(401).send({msg: "Unauthorized"});

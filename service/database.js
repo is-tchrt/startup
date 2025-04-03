@@ -34,7 +34,7 @@ async function updateUser(user) {
 }
 
 async function logoutUser(token) {
-  await users.updateOne({token: token}, {$set: {token: null}});
+  await users.updateOne({token: token}, {$set: {token: null, group: null}});
 }
 
 function getGroup(name) {

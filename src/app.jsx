@@ -16,6 +16,9 @@ export default function App() {
   const [item, setItem] = React.useState(() => {});
   const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
   const socket = new WebSocket(`${protocol}://${window.location.host}`);
+  socket.onmessage = (event) => {
+    setList(event.data);
+  }
 
   return (
     <BrowserRouter>

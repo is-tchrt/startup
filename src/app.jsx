@@ -6,6 +6,7 @@ import { Login } from './login/login';
 import { Group } from './group/group';
 import { List } from './list/list';
 import { Item } from './item/item';
+import { sendMessage, setHandler } from './webSocket';
 
 export default function App() {
   const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
@@ -14,11 +15,23 @@ export default function App() {
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
   const [list, setList] = React.useState(() => []);
   const [item, setItem] = React.useState(() => {});
-  const protocol = window.location.protocol === 'http:' ? 'ws' : 'wss';
-  const socket = new WebSocket(`${protocol}://${window.location.host}`);
-  socket.onmessage = (event) => {
-    setList(event.data);
+  async function getList() {
+    console.log("getting list");
+    const response = await fetch('/api/list', {
+      method: 'get',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+      },
+    });
+    if (response?.status === 200) {
+      const json = await response.json();
+      setList(json.list);
+    }
   }
+
+  // useEffect(() => {
+  //   setHandler((event) => {console.log("handling: ", event); getList();});
+  // }, []);
 
   return (
     <BrowserRouter>
@@ -40,9 +53,9 @@ export default function App() {
               setUserName(userName);
               setLoggedIn(true);
           }} />} exact />
-          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group)}} setList={(newList) => {setList(newList);}} /> : <NotAllowed />} />
-          <Route path='/list' element={loggedIn ? <List list={list} userName={userName} setItem={(newItem) => {setItem(newItem)}} socket={socket} /> : <NotAllowed />} />
-          <Route path='/item' element={loggedIn ? <Item item={item} setItem={(newItem) => {setItem(newItem)}} setList={(newList) => {setList(newList)}} userName={userName} /> : <NotAllowed />} />
+          <Route path='/group' element={loggedIn ? <Group group={group} onGroupSelect={(group) => {setGroup(group); sendMessage(group);}} setList={(newList) => {setList(newList);}} /> : <NotAllowed />} />
+          <Route path='/list' element={loggedIn ? <List group={group} setGroup={setGroup} sendMessage={sendMessage} setHandler={setHandler} list={list} userName={userName} setItem={(newItem) => {setItem(newItem)}} /> : <NotAllowed />} />
+          <Route path='/item' element={loggedIn ? <Item sendMessage={sendMessage} item={item} setItem={(newItem) => {setItem(newItem)}} setList={(newList) => {setList(newList)}} userName={userName} /> : <NotAllowed />} />
           <Route path='/logout' element={<Logout logout={() => setLoggedIn(false)} />} />
           <Route path='*' element={<NotFound />} />
         </Routes>

@@ -15,6 +15,7 @@ export function Item(props) {
       item.id = props.item.id;
     }
       const list = await addItem(item);
+    props.sendMessage("listUpdate");
       props.setList(list);
       props.setItem({});
       navigate('/list');

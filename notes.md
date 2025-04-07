@@ -32,3 +32,5 @@ Make sure to put the links to stylesheets in the right order in the HTML.
 ## React Notes
 
 CSS with React is wonky, be really careful. Bootstrap doesn't turn out quite the same.
+
+It's probably better in the future to pull shared functionality out into .js files that can be access from all components. That would be easier than trying to do it through props, or copy-pasting code all over the place.

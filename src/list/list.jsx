@@ -8,25 +8,9 @@ export function List(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   let title = Math.floor(Math.random() * 2000);
-    //   let description = "A descriptive description.";
-    //   let author = "anon."
-    //   const newItem = new listItem(title, description, author);
-    //   fetch('api/list', {
-    //     method: 'post',
-    //     body: JSON.stringify({item: newItem}),
-    //     headers: {
-    //       'Content-type': 'application/json; charset=UTF-8',
-    //     },
-    //   }).then((response) => response.json()).then((json) => setList(json.list));
-    //   }, 10000);
-    //   return () => clearInterval(interval);
-    // props.socket.send('listUpdate');
     const group = localStorage.getItem('group');
     props.setGroup(group);
     async function getList() {
-      console.log("getting list");
       const response = await fetch('/api/list', {
         method: 'get',
         headers: {
@@ -38,7 +22,7 @@ export function List(props) {
         setList(json.list);
       }
     }
-    props.setHandler((event) => {console.log("Handling: ", event); getList();});
+    props.setHandler((event) => {getList();});
     getList();
   }, []);
 

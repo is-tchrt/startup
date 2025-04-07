@@ -15,23 +15,6 @@ export default function App() {
   const [group, setGroup] = React.useState(localStorage.getItem('group') || '');
   const [list, setList] = React.useState(() => []);
   const [item, setItem] = React.useState(() => {});
-  async function getList() {
-    console.log("getting list");
-    const response = await fetch('/api/list', {
-      method: 'get',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    });
-    if (response?.status === 200) {
-      const json = await response.json();
-      setList(json.list);
-    }
-  }
-
-  // useEffect(() => {
-  //   setHandler((event) => {console.log("handling: ", event); getList();});
-  // }, []);
 
   return (
     <BrowserRouter>

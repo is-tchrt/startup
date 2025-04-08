@@ -100,6 +100,10 @@ apiRouter.delete('/list', verifyAuth, async (req, res) => {
   res.status(200).send({list: group['list']});
 });
 
+app.use((req, res) => {
+  res.sendFile('index.html', {root: 'public'});
+});
+
 async function verifyAuth(req, res, next) {
   const user = await findUser('token', req.cookies[authCookieName]);
   if (user) {
